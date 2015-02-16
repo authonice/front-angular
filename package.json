@@ -1,0 +1,37 @@
+{
+  "name": "authonice-angular",
+  "version": "0.0.9",
+  "description": "authonice frontend for angular",
+  "main": "index.js",
+  "scripts": {
+    "js": "browserify . -x angular --standalone authonice -o dist/authonice-angular.js && uglifyjs dist/authonice-angular.js -o dist/authonice-angular.min.js",
+    "bump": "npm run js && mversion patch -m && npm publish",
+    "test": "mocha",
+    "watch": "mocha -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/authonice/front-angular.git"
+  },
+  "keywords": [
+    "authonice",
+    "angular",
+    "authentication"
+  ],
+  "author": "David Konsumer <konsumer@jetboystudio.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/authonice/front-angular/issues"
+  },
+  "homepage": "https://github.com/authonice/front-angular",
+  "devDependencies": {
+    "browserify": "^8.1.3",
+    "chai": "^2.0.0",
+    "mocha": "^2.1.0",
+    "mversion": "^1.9.0",
+    "uglify-js": "^2.4.16"
+  },
+  "dependencies": {
+    "angular": "^1.3.13"
+  }
+}

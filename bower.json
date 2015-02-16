@@ -1,0 +1,31 @@
+{
+  "name": "authonice-angular",
+  "version": "0.0.9",
+  "homepage": "https://github.com/authonice/front-angular",
+  "authors": [
+    "David Konsumer <konsumer@jetboystudio.com>"
+  ],
+  "description": "authonice frontend for angular",
+  "main": "dist/authonice-angular.js",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "authonice",
+    "angular",
+    "authentication"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.3.13"
+  }
+}
