@@ -32,8 +32,8 @@ app.service('authonice', function($http, $q) {
       $http.post(authonice.mountPoint + '/login', {email:email, password:password})
         .success(function(data, status, headers, config) {
           if (status === 200){
-            authonice.token = data.token;
-            localStorage.token = data.token;
+            authonice.token = JSON.parse(data);
+            localStorage.token = authonice.token;
             setupHeaders();
             resolve();
           }else{
