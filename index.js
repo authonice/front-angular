@@ -1,34 +1,98 @@
 var angular = window ? window.angular : require('angular');
 if (!angular && require) angular = require('angular');
 
-var authonice = module.exports = angular.module('authonice', []);
+var app = angular.module('authonice', []);
 
-authonice.service('authonice', function() {
-  this.loggedIn = function(){
-    
+app.service('authonice', function($http, $q) {
+  var authonice = this;
+  authonice.token = false;
+
+  // configuration
+  authonice.mountPoint = '/auth';
+  authonice.loginRoute = '/login';
+
+  if (localStorage && localStorage.token){
+    authonice.token = localStorage.token;
+  }
+
+  function setupHeaders(){
+    if (authonice.token){
+      $http.defaults.headers.common.Authorization = 'Basic ' + authonice.token;
+    }
+  }
+
+  setupHeaders();
+
+  authonice.loggedIn = function(){
+    return !!authonice.token;
   };
 
-  this.login = function(email, password){
-
+  authonice.login = function(email, password){
+    return $q(function(resolve, reject) {
+      $http.post(authonice.mountPoint + '/login', {email:email, password:password})
+        .success(function(data, status, headers, config) {
+          if (status === 200){
+            authonice.token = data.token;
+            localStorage.token = data.token;
+            setupHeaders();
+            resolve();
+          }else{
+            reject(data);
+          }
+        })
+        .error(reject);
+    });
   };
 
-  this.logout = function(){
-
+  authonice.logout = function(){
+    authonice.token = false;
+    delete localStorage.token;
+    delete $http.defaults.headers.common.Authorization;
   };
 
-  this.register = function(email, password){
-
+  authonice.register = function(email, password){
+    return $q(function(resolve, reject) {
+      $http.post(authonice.mountPoint + '/register', {email:email, password:password})
+        .success(function(data, status, headers, config) {
+          if (status === 200){
+            resolve();
+          }else{
+            reject(data);
+          }
+        })
+        .error(reject);
+    });
   };
 
-  this.verify = function(token){
-
+  authonice.verify = function(token){
+    return $q(function(resolve, reject) {
+      $http.post(authonice.mountPoint + '/verify', {token: token})
+        .success(function(data, status, headers, config) {
+          if (status === 200){
+            resolve();
+          }else{
+            reject(data);
+          }
+        })
+        .error(reject);
+    });
   };
 
-  this.user = function(){
-
+  authonice.user = function(){
+    return $q(function(resolve, reject) {
+      $http.post(authonice.mountPoint + '/user', {token: token})
+        .success(function(data, status, headers, config) {
+          if (status === 200){
+            resolve();
+          }else{
+            reject(data);
+          }
+        })
+        .error(reject);
+    });
   };
 
-  this.req = function(){
-
-  };
+  // Angular has defaults for $http, so just use the regular ones
+  authonice.get = $http.get;
+  authonice.post = $http.post;
 });
