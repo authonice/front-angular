@@ -85,7 +85,7 @@ app.service('authonice', function($http, $q, $rootScope) {
       $http.post(authonice.mountPoint + '/user', {token: token})
         .success(function(data, status, headers, config) {
           if (status === 200){
-            resolve();
+            resolve(data);
           }else{
             reject(data);
           }
