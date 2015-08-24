@@ -3,7 +3,7 @@ if (!angular && require) angular = require('angular');
 
 var app = angular.module('authonice', []);
 
-app.service('authonice', function($http, $q) {
+app.service('authonice', function($http, $q, $rootScope) {
   var authonice = this;
   authonice.token = false;
 
@@ -35,6 +35,7 @@ app.service('authonice', function($http, $q) {
             authonice.token = JSON.parse(data);
             localStorage.token = authonice.token;
             setupHeaders();
+            $rootScope.$emit('authonice.login');
             resolve();
           }else{
             reject(data);
@@ -48,6 +49,7 @@ app.service('authonice', function($http, $q) {
     authonice.token = false;
     delete localStorage.token;
     delete $http.defaults.headers.common.Authorization;
+    $rootScope.$emit('authonice.logout');
   };
 
   authonice.register = function(email, password){
