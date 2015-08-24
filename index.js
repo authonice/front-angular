@@ -17,7 +17,7 @@ app.service('authonice', function($http, $q, $rootScope) {
 
   function setupHeaders(){
     if (authonice.token){
-      $http.defaults.headers.common.Authorization = 'Basic ' + authonice.token;
+      $http.defaults.headers.common.Authorization = 'Bearer ' + authonice.token;
     }
   }
 
